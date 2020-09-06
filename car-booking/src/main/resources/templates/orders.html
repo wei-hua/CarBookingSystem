@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Orders</title>
+    <script th:src="@{/js/jquery-3.1.1.min.js}"></script>
+</head>
+<body>
+Here is your order!
+<table class="layui-table">
+    <colgroup>
+        <col width="150">
+        <col width="200">
+        <col>
+    </colgroup>
+    <thead>
+    <tr>
+        <th>id</th>
+        <th>carName</th>
+        <th>price</th>
+        <th>startTime</th>
+        <th>timeRemaining</th>
+        <th>operation</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="order:${orders}">
+        <td th:text="${order.getId()}"></td>
+        <td th:text="${order.getCarName()}"></td>
+        <td th:text="${order.getPrice()}"></td>
+        <td th:text="${#dates.format(new java.util.Date(order.getStartTime()),'yyyy-MM-dd HH:mm')}"></td>
+        <td><button th:onclick="|cancel(${order.id}, ${order.carId},${order.userId})|">Cancel</button></td>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+
+<script>
+    function cancel(orderId,carId,userId) {
+        $.post("/order/cancel",{orderId:orderId,carId:carId},function (res) {
+            if (res ==true){
+                alert("Cancel Success");
+                window.location.href ="/order/query?userId="+userId;
+            } else {
+                alert("Cancel failed");
+            }
+        })
+    }
+</script>
+</html>

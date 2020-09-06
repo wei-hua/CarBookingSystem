@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.alina.carbooking.mapper.OrderMapper">
+    <select id="queryAllOrders" resultType="com.alina.carbooking.entity.Order">
+        select * from `order`;
+    </select>
+
+    <select id="queryOrderByUserId" parameterType="java.lang.Long" resultType="com.alina.carbooking.entity.OrderToDisplay">
+        select o.id, o.user_id, o.car_id, o.start_time,c.name as carName, c.price
+        from `order` o
+        left join `car` c
+        on o.car_id = c.id
+        WHERE o.user_id = #{userId};
+    </select>
+
+    <insert id="addOrder"  parameterType="com.alina.carbooking.entity.Order">
+        INSERT INTO `order`(car_id, user_id,start_time) VALUES (#{carId},#{userId},#{startTime})
+    </insert>
+
+    <!--<select id="queryUserById" parameterType="java.lang.String" resultType="com.alina.carbooking.entity.User">-->
+        <!--SELECT  * FROM user where name = #{name}-->
+    <!--</select>-->
+
+    <!--<update id="updateCar" parameterType="com.alina.carbooking.entity.Car">-->
+        <!--update  car SET category= #{category},name=#{name },stock =#{stock},price=#{price} WHERE id = #{id}-->
+    <!--</update>-->
+
+    <delete id="deleteOrder" parameterType="java.lang.Long">
+        DELETE from `order` WHERE id = #{id}
+    </delete>
+</mapper>

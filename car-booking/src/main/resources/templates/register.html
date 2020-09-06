@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Register Account</title>
+	<script th:src="@{/js/jquery-3.1.1.min.js}"></script>
+</head>
+<body>
+<h2>Register Account</h2>
+name：<input type="text" id="name"/><br><br>
+password：<input type="password" id="password" /><br><br>
+phone：<input type="text" id="phone" placeholder="number only" /><br><br>
+<button onclick="register()">Register</button>
+</body>
+<script>
+    function register() {
+        var name = $("#name").val();
+        var password = $("#password").val();
+        var phone = $("#phone").val();
+		$.post("/register",{name:name,password:password,phone:phone},function (res) {
+			if (res ==true){
+				alert("Register Success");
+				window.location.href ="/gologin";
+			} else {
+				alert("Register failed,please check your data and try again");
+			}
+		})
+    }
+</script>
+</html>
