@@ -18,11 +18,11 @@ phone：<input type="text" id="phone" placeholder="number only" /><br><br>
         var password = $("#password").val();
         var phone = $("#phone").val();
 		$.post("/register",{name:name,password:password,phone:phone},function (res) {
-			if (res ==true){
+			if (res == "success"){
 				alert("Register Success");
 				window.location.href ="/gologin";
 			} else {
-				alert("Register failed,please check your data and try again");
+                alert("Register failed,"+ res);
 			}
 		})
     }

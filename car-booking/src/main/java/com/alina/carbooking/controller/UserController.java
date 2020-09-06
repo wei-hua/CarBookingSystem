@@ -4,8 +4,8 @@ import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
+import com.alina.carbooking.constans.Code;
 import com.alina.carbooking.entity.Car;
 import com.alina.carbooking.entity.User;
 import com.alina.carbooking.service.CarService;
@@ -50,12 +50,19 @@ public class UserController {
 	}
 	@RequestMapping("/register")
 	@ResponseBody
-	public boolean register(User user){
+	public String register(User user){
+		if (user.getName() == null || user.getName() == "") {
+			return Code.INVALID_USER_NAME;
+		}
+		User exist = userService.queryUserByName(user.getName());
+		if (exist != null) {
+			return Code.USER_EXIST;
+		}
 		int i = userService.adduser(user);
 		if (i>0){
-			return true;
+			return Code.SUCCESS;
 		}else {
-			return false;
+			return Code.FAIL;
 		}
 	}
 
@@ -63,11 +70,10 @@ public class UserController {
 	public String  login(User user,HttpServletRequest request,Model model){
 		User existUser = userService.queryUserByName(user.getName());
 		if (existUser==null || !user.getPassword().equals(existUser.getPassword())){
-			return  "public/false";
+			model.addAttribute("error", "name or password is wrong");
+			return  "error";
 		}
-		//HttpSession session =  request.getSession();
-		//session.setAttribute("name",user.getName());
-		//session.setAttribute("password",user.getPassword());
+
 		List<Car> carList = carService.queryAllCars();
 		model.addAttribute("user",existUser);
 		model.addAttribute("cars", carList);
