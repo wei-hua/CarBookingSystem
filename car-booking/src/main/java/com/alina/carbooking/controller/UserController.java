@@ -80,10 +80,4 @@ public class UserController {
 		return "homepage";
 	}
 
-	@RequestMapping("/test")
-    @ResponseBody
-	public boolean  test(HttpServletRequest request,Model model){
-		return true;
-	}
-
 }

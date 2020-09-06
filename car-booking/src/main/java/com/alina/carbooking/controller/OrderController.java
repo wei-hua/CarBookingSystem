@@ -5,6 +5,7 @@ import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import com.alina.carbooking.constans.Code;
 import com.alina.carbooking.entity.Car;
 import com.alina.carbooking.entity.Order;
 import com.alina.carbooking.entity.User;
@@ -36,17 +37,17 @@ public class OrderController {
     @RequestMapping("/book")
     @ResponseBody
     @Transactional(rollbackFor = {RuntimeException.class, Error.class})
-    public boolean book(Integer carId,Long userId,HttpServletRequest request,Model model){
+    public String book(Integer carId,Long userId,HttpServletRequest request,Model model){
         User existUser = userService.queryUserById(userId);
         if (existUser==null){
             logger.error("user does not exist");
-            return false;
+            return Code.USER_NOT_EXIST;
         }
 
         Car currentCar = carService.queryCarById(carId);
         if (currentCar == null ||  currentCar.getStock() <= 0) {
             logger.error("this car {} has no stock", carId);
-            return false;
+            return Code.NO_STOCK_LEFT;
         }
         Order order = new Order();
         order.setCarId(carId);
@@ -56,7 +57,7 @@ public class OrderController {
 
         currentCar.setStock(currentCar.getStock()-1);
         carService.updateCar(currentCar);
-        return true;
+        return Code.SUCCESS;
     }
 
     @RequestMapping("/query")

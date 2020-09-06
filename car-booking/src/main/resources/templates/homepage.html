@@ -33,48 +33,18 @@ Welcome to book car!
             </tr>
             </tbody>
         </table>
-        <!--<div th:replace="~{fragments/page :: page}">...</div>-->
 
     </div>
 </div>
-
-<!--<table class="layui-table">-->
-    <!--<colgroup>-->
-        <!--<col width="150">-->
-        <!--<col width="200">-->
-        <!--<col>-->
-    <!--</colgroup>-->
-    <!--<thead>-->
-    <!--<tr>-->
-        <!--<th>id</th>-->
-        <!--<th>category</th>-->
-        <!--<th>carName</th>-->
-        <!--<th>price</th>-->
-        <!--<th>stock</th>-->
-        <!--<th>operation</th>-->
-    <!--</tr>-->
-    <!--</thead>-->
-    <!--<tbody>-->
-    <!--<tr th:each="car:${cars}">-->
-        <!--<td th:text="${car.getId()}"></td>-->
-        <!--<td th:text="${car.getCategory()}"></td>-->
-        <!--<td th:text="${car.getName()}"></td>-->
-        <!--<td th:text="${car.getPrice()}"></td>-->
-        <!--<td th:text="${car.getStock()}"></td>-->
-        <!--<td><button th:onclick="|book(${car.id}, ${user.id})|">Book</button></td>-->
-        <!--</td>-->
-    <!--</tr>-->
-    <!--</tbody>-->
-<!--</table>-->
 </body>
 <script>
     function book(carId,userId) {
         $.post("/order/book",{carId:carId,userId:userId},function (res) {
-            if (res ==true){
+            if (res =="success"){
                 alert("Book Success");
                 window.location.href ="/order/query?userId="+userId;
             } else {
-                alert("Book failed,please check your data and try again");
+                alert("Book failed"+res);
             }
         })
     }

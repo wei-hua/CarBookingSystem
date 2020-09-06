@@ -27,11 +27,6 @@ public class CarController {
 
     private static final Logger logger = LoggerFactory.getLogger(CarController.class);
 
-    @RequestMapping("/management")
-    public String manageCar(){
-        return "carManagement";
-    }
-
     @RequestMapping("/add")
     @ResponseBody
     public boolean addCar(Car car,HttpServletRequest request){
